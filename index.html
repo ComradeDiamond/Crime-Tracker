@@ -1,0 +1,161 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>NYC Crime Tracker</title>
+		<style>
+			body
+			{
+				overflow-x: hidden;
+			}
+			header
+			{
+				position: absolute;
+				z-index: 1;
+			}
+			header
+			{
+				background-color: #3E3E44;
+				top: 0px;
+				left: 0px;
+				display: block;
+				width: 100%;
+			}
+			header img
+			{
+				padding: 8px;
+				margin-left: 10px;
+			}
+			header ul
+			{
+				float: right;
+				list-style-type: none;
+				width: 62%;
+				display: inline;
+				overflow: hidden;
+			}
+			header ul li
+			{
+				display: inline;
+				padding-right: 6%;
+				padding-left: 6%;
+				border-right: 2px solid white;
+				font: 24pt trebuchet ms;
+			}
+			header ul li a
+			{
+				margin-top: 1.5vh;
+				display: inline-block;
+				font: 24pt trebuchet ms;
+				color: white;
+				text-decoration-line: none;
+			}
+			header ul li a:hover
+			{
+				text-decoration-color: #4C9FBF;
+				text-decoration-line: underline;
+				color: #C6C1A8;
+				outline: none;
+				cursor: pointer;
+			}
+			#backgroundImageHTML
+			{
+				position: relative;
+				left: -0.5%;
+				width: 100vw;
+				height: auto;
+				clip-path: polygon(0 0, 0 70%, 100% 90%, 100% 0);
+			}
+			#titleDivHTML
+			{
+				position: absolute;
+				top: 30vh;
+				left: 40%;
+				font: 72pt trebuchet ms;
+				color: white;
+			}
+			#descriptionDivHTML
+			{
+				margin-left: 5%;
+				list-style-type: none;
+			}
+			#descriptionDivHTML li div img
+			{
+				height: 60px;
+				width: 60px;
+			}
+			#descriptionDivHTML li div
+			{
+				margin-bottom: 20px;
+				padding-left: 10px;
+				border-left: solid #4C9FBF;
+				border-radius: 3px;
+				font: 32pt trebuchet ms;
+				text-decoration-line: underline;
+			}
+			#descriptionDivHTML li div div
+			{
+				display: inline-block;
+				border: none;
+				text-decoration: none;
+				font: 24pt calibri light;
+			}
+		</style>
+		<script>
+			function initialize() 
+			{
+			}
+			function display() 
+			{
+			}
+		</script>
+	</head>
+	<body onload="initialize();">
+		<header>
+			<img src="Logo.png" draggable="false"/>
+			<ul>
+				<li>
+					<a>About</a>
+				</li>
+				<li>
+					<a href="dataPage.html" target="_blank">Tracker</a>
+				</li>
+				<li>
+					<a>Data Charts</a>
+				</li>
+				<li>
+					<a>Credits</a>
+				</li>
+			</ul>
+		</header>
+		<img id="backgroundImageHTML" src="Stock Images/Police.png" />
+		<div id="titleDivHTML">
+			NYC Crime Tracker
+		</div>
+
+		<ul id="descriptionDivHTML">
+			<li>
+				<div>
+					<img src="https://img.icons8.com/cotton/64/000000/cloud-refresh.png"/>
+					Weekly Data Updates <br />
+
+					<div>
+						Data updated weekly, sourced from NYPD Website. <br />
+						The graphs and data collected can be found in Data Charts
+					</div>
+				</div>
+			</li>
+			<li>
+				<div>
+					<img src="https://img.icons8.com/fluent/48/000000/area-chart.png"/>
+					Comparative and Customizable Charts <br />
+
+					<div>
+						Using Chart.js, data is generated via the data. <br />
+						Eventually in the future, you will be able to customize the graphs to show the specifics of the crime data. <br />
+						In the future, there are plans to have comparative graphs once the data accumulates
+					</div>
+				</div>
+			</li>
+		</ul>
+	</body>
+</html>

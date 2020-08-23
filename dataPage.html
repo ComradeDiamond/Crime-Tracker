@@ -1,0 +1,140 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Data Page</title>
+		<link rel="stylesheet" type="text/css" href="chart.js/dist/Chart.min.css">
+		<style>
+			canvas
+			{
+				top: 30vh;
+				/*border: solid blue;*/
+			}
+			header, canvas, form
+			{
+				position: absolute;
+				display: block;
+			}
+			header
+			{
+				background-color: #3E3E44;
+				top: 0px;
+				left: 0px;
+				display: block;
+				width: 100%;
+			}
+			header img
+			{
+				padding: 8px;
+				margin-left: 10px;
+			}
+			header ul
+			{ 
+				float: right;
+				list-style-type: none;
+				width: 62%;
+				display: inline;
+				overflow: hidden;
+			}
+			header ul li
+			{
+				display: inline;
+				padding-right: 6%;
+				padding-left: 6%;
+				border-right: 2px solid white;
+				font: 24pt trebuchet ms;
+			}
+			header ul li a
+			{
+				margin-top: 1.5vh;
+				display: inline-block;
+				font: 24pt trebuchet ms;
+				color: white;
+				text-decoration-line: none;
+			}
+			header ul li a:hover
+			{
+				text-decoration-color: #4C9FBF;
+				text-decoration-line: underline;
+				color: #C6C1A8;
+				outline: none;
+				cursor: pointer;
+			}
+			form
+			{
+				top: 20vh;
+				left: 2%;
+			}
+			select
+			{
+				font: 16pt calibri light;
+				outline: none;
+				margin-right: 3vw;
+			}
+			label
+			{
+				font: 16pt calibri light;
+			}
+		</style>
+
+		<!--Constructors-->
+		<script src="classes.js"></script>
+
+		<!--Crime Stat Import -->
+		<script src="Crime Statistics/august2020.js"></script>
+
+		<!--End-->
+		<script src="chart.js/dist/Chart.js"></script>
+		<script src="functions.js"></script>
+		<script>
+			function initialize() 
+			{
+				chartCanvas = document.getElementById("chartCanvas");
+				statForm = document.getElementById("statFormHTML");
+
+				weekGraph(chartCanvas, august2020.crimeData[2]);
+				fillSelectOptions();
+			}
+			function display() 
+			{
+			}
+		</script>
+	</head>
+	<body onload="initialize();">
+		<header>
+			<img src="Logo.png" draggable="false"/>
+			<ul>
+				<li>
+					<a>About</a>
+				</li>
+				<li>
+					<a href="dataPage.html" target="_blank">Tracker</a>
+				</li>
+				<li>
+					<a>Data Charts</a>
+				</li>
+				<li>
+					<a>Credits</a>
+				</li>
+			</ul>
+		</header>
+
+		<br />
+		<form id="statFormHTML">
+
+			<label for="chartTypeHTML">Chart Type: </label>
+			<select id="chartTypeHTML" name="chartType" onchange="updateChartData(this);">
+				<option value="Weekly Crime Chart">Weekly Crime Chart</option>
+				<option value="Monthly Crime Chart">Monthly Crime Chart</option>
+			</select>
+
+			<label for="chartMonthHTML">Month to Display: </label>
+			<select id="chartMonthHTML" name="chartMonth" onchange="updateMonthData(this);">
+			</select>
+
+			<label for="chartWeekHTML">Week to Display: </label>
+			<select id="chartWeekHTML" name="chartWeek" onchange="updateWeekData(chartCanvas, this);">
+			</select>
+		</form>
+		<canvas id="chartCanvas" width="400" height="400"></canvas>
+	</body>
+</html>
