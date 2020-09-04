@@ -1,0 +1,98 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Data Page</title>
+		<link rel="stylesheet" type="text/css" href="chart.js/dist/Chart.min.css">
+		<link rel="stylesheet" href="CSS/nav.css" />
+		<link rel="stylesheet" href="CSS/scroll.css" />
+		<style>
+			canvas
+			{
+				top: 30vh;
+				/*border: solid blue;*/
+			}
+			canvas, form
+			{
+				position: absolute;
+				display: block;
+			}
+			form
+			{
+				top: 20vh;
+				left: 2%;
+			}
+			select
+			{
+				font: 16pt calibri light;
+				outline: none;
+				margin-right: 3vw;
+			}
+			label
+			{
+				font: 16pt calibri light;
+			}
+		</style>
+
+		<!--Constructors-->
+		<script src="Script/classes.js"></script>
+
+		<!--Crime Stat Import -->
+		<script src="../Crime Statistics/august2020.js"></script>
+
+		<!--End-->
+		<script src="chart.js/dist/Chart.js"></script>
+		<script src="Script/functions.js"></script>
+		<script src="Script/nav.js"></script>
+		<script>
+			function initialize() 
+			{
+				chartCanvas = document.getElementById("chartCanvas");
+				statForm = document.getElementById("statFormHTML");
+
+				weekGraph(chartCanvas, august2020.crimeData[2]);
+				fillSelectOptions();
+			}
+			function display() 
+			{
+			}
+		</script>
+	</head>
+	<body onload="initialize();">
+		<nav>
+			<img src="Stock Images/Logo.png" draggable="false" onclick="window.open('index.html');"/>
+			<ul>
+				<li>
+					<a>About</a>
+				</li>
+				<li>
+					<a href="dataPage.html" target="_blank">Tracker</a>
+				</li>
+				<li>
+					<a>Data Charts</a>
+				</li>
+				<li>
+					<a>Credits</a>
+				</li>
+			</ul>
+		</nav>
+
+		<br />
+		<form id="statFormHTML">
+
+			<label for="chartTypeHTML">Chart Type: </label>
+			<select id="chartTypeHTML" name="chartType" onchange="updateChartData(this);">
+				<option value="Weekly Crime Chart">Weekly Crime Chart</option>
+				<option value="Monthly Crime Chart">Monthly Crime Chart</option>
+			</select>
+
+			<label for="chartMonthHTML">Month to Display: </label>
+			<select id="chartMonthHTML" name="chartMonth" onchange="updateMonthData(this);">
+			</select>
+
+			<label for="chartWeekHTML">Week to Display: </label>
+			<select id="chartWeekHTML" name="chartWeek" onchange="updateWeekData(chartCanvas, this);">
+			</select>
+		</form>
+		<canvas id="chartCanvas" width="400" height="400"></canvas>
+	</body>
+</html>
