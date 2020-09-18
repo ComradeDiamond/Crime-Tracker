@@ -1,4 +1,5 @@
 blank = [];
+crimeStat = ["Bronx", "Bronx 040", "Bronx 041", "Bronx 042", "Bronx 043", "Bronx 044", "Bronx 045", "Bronx 046", "Bronx 047", "Bronx 048", "Bronx 049", "Bronx 050", "Bronx 052", "BrooklynSouth", "BrooklynSouth 060", "BrooklynSouth 061", "BrooklynSouth 062", "BrooklynSouth 063", "BrooklynSouth 066", "BrooklynSouth 067", "BrooklynSouth 068", "BrooklynSouth 069", "BrooklynSouth 070", "BrooklynSouth 071", "BrooklynSouth 072", "BrooklynSouth 076", "BrooklynSouth 078", "BrooklynNorth", "BrooklynNorth 073", "BrooklynNorth 075", "BrooklynNorth 077", "BrooklynNorth 079", "BrooklynNorth 081", "BrooklynNorth 083", "BrooklynNorth 084", "BrooklynNorth 088", "BrooklynNorth 090", "BrooklynNorth 094", "ManhattanSouth", "ManhattanSouth 001", "ManhattanSouth 005", "ManhattanSouth 006", "ManhattanSouth 007", "ManhattanSouth 009", "ManhattanSouth 010", "ManhattanSouth 013", "ManhattanSouth 014", "ManhattanSouth 017", "ManhattanSouth 018", "ManhattanNorth", "ManhattanNorth 019", "ManhattanNorth 020", "ManhattanNorth 022", "ManhattanNorth 023", "ManhattanNorth 024", "ManhattanNorth 025", "ManhattanNorth 026", "ManhattanNorth 028", "ManhattanNorth 030", "ManhattanNorth 032", "ManhattanNorth 033", "ManhattanNorth 034", "QueensSouth", "QueensSouth 100", "QueensSouth 101", "QueensSouth 102", "QueensSouth 103", "QueensSouth 104", "QueensSouth 105", "QueensSouth 106", "QueensSouth 107", "QueensSouth 113", "QueensNorth", "QueensNorth 104", "QueensNorth 108", "QueensNorth 109", "QueensNorth 110", "QueensNorth 111", "QueensNorth 112", "QueensNorth 114", "QueensNorth 115", "StatenIsland", "StatenIsland 120", "StatenIsland 121", "StatenIsland 122", "StatenIsland 123"];
 
 function getDates(array)
 {
@@ -187,15 +188,15 @@ function createBlankOption(parent)
 	parent.appendChild(nothingOption);
 }
 
-function fillSelectOptions() //Creates select options for all the possible graph options
+function fillSelectOptions() //Creates select options for all the months
 {
 	createBlankOption(document.getElementById("chartMonthHTML"));
 
-	for (var monthName of crimeMonthArray) //Month in Weekly Crime Stat
+	for (var monthArray of firebaseData) //Month in Weekly Crime Stat
 	{
 		let tempOption = document.createElement("option");
-		tempOption.value = monthName.name.replace(" ", "").toLowerCase();
-		tempOption.text = monthName.name;
+		tempOption.value = monthArray.name.replace(" ", "").toLowerCase();
+		tempOption.text = monthArray.name;
 
 		document.getElementById("chartMonthHTML").appendChild(tempOption);
 	}
@@ -218,10 +219,71 @@ function displayWeek(monthArrayName) //Displays the week in the week option
 		for (var c=0; c<monthArray.crimeData.length; c++)
 		{
 			let tempOption = document.createElement("option");
-			tempOption.value = c;
+			tempOption.value = monthArray.crimeData[c].date;
 			tempOption.text = monthArray.crimeData[c].date;
 
 			document.getElementById("chartWeekHTML").appendChild(tempOption);
 		}
 	}
+}
+
+function spoopJoin(borough) //Returns a complete array with the combined borough statistics
+{
+	if (statForm.chartType.value.includes("Monthly"))
+	{
+		var monthArray = firebaseData.filter((timeframe) => {
+			return timeframe == statForm.chartMonth.value;
+		})[0];
+
+		var dataStat = monthArray.subData.filter((area) => {
+			return ((area == borough + "South") || (area == borough + "North")); //The brklynNorth & south array will be consecutive
+		})
+
+		var crimeArray = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+
+		for (var i=0; i<dataStat.length; i+=2)
+		{
+			for (var c=0; c<15; c++)
+			{
+				crimeArray[c] += Number(dataStat[i].array[c]) + Number(dataStat[i+1].array[c]);
+			}
+		}
+	}
+	else //Weekly
+	{
+		var monthArray = firebaseData.filter((timeframe) => {
+			return timeframe == statForm.chartMonth.value;
+		})[0];
+
+		var dataStat = monthArray.subData.filter((area) => {
+			return ((area == borough + "South") || (area == borough + "North")); //The brklynNorth & south array will be consecutive
+		});
+
+		var weekArray = dataStat.filter((timeframe) => {
+			return timeframe == statForm.chartWeek.value; //We should only get weekArray with 2 items bc brklynNorth + brklynSouth
+		});
+
+		var crimeArray = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+
+		for (var i=0; i<15; i++)
+		{
+			crimeArray[i] += (Number(weekArray[0][i]) + Number(weekArray[1][i]));
+		}
+
+	}
+
+	if (crimeArray == [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]) //If there is no crime stat at all on the borough, return err as a safety measure
+	{
+		return "George Not Found";
+	}
+	else
+	{
+		return crimeArray;
+	}
+}
+
+function spoopMode(boroughHTML) //Enables or disables the precindict select options + Returns the crime month data
+{
+	//Does stuff
+	//Timeframe - statForm.chartMonth.value
 }

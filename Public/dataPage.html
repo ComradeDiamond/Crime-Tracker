@@ -42,7 +42,6 @@
 		<!--End-->
 		<script src="chart.js/dist/Chart.js"></script>
 		<script src="Script/functions.js"></script>
-		<script src="Script/nav.js"></script>
 		<script>
 			function initialize() 
 			{
@@ -91,6 +90,21 @@
 
 			<label for="chartWeekHTML">Week to Display: </label>
 			<select id="chartWeekHTML" name="chartWeek" onchange="updateWeekData(chartCanvas, this);">
+			</select>
+
+			<label for="boroughHTML">Borough: </label>
+			<select id="boroughHTML" name="borough" onchange="spoopMode(this);">
+				<option value=""></option>
+				<option value="brooklynTotal">Brooklyn</option>
+				<option value="manhattanTotal">Manhattan</option>
+				<option value="queensTotal">Queens</option>
+				<option value="bronx">Bronx</option>
+				<option value="jerseyCity">Staten Island</option>
+			</select>
+
+			<label for="districtHTML">Precindict </label>
+			<select id="districtHTML" name="district" onchange="spoopMode(this);">
+				<option value=""></option>
 			</select>
 		</form>
 		<canvas id="chartCanvas" width="400" height="400"></canvas>
