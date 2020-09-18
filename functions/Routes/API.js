@@ -1,13 +1,14 @@
 const express = require('express');
 const router = express.Router();
+var xlsx = require('node-xlsx').default;
 
-const xlsxFile = require('read-excel-file/node');
 const download = require("download-file");
 const apiKey = require("./APIKey.js");
 
 const classes = require("../classes.js"); //Serverside classes
 Link = classes.Link;
 CrimeStat = classes.CrimeStat;
+SubCrimeStat = classes.SubCrimeStat;
 
 //Initialize the items needed to download all the excel data files -------------------------
 const downloadDirectory = {directory: "../Crime Statistics/ExcelFiles"};
@@ -107,9 +108,56 @@ router.get("/downloadFiles", async (request, response) => {
 	}
 })
 
-router.get("/parseExcel", async (request, response) => {
-	//Parse the excel
-	response.send("F");
+router.get("/parseExcel", (request, response) => {
+	var query = request.query.key;
+
+	if (query == undefined)
+	{
+		response.send("I would split the query string, but I just can't divide by zero!");
+	}
+	else
+	{
+		if (query == apiKey.apiKey2)
+		{
+			try
+			{
+				//Parses all the spreadsheets and return a JSON with all the data
+
+				//Start with citywide and go from there
+				var pA = xlsx.parse("../Crime Statistics/ExcelFiles/Overall.xlsx")[0].data;
+
+				var crimeArray = [
+				pA[13][2], pA[14][2], pA[15][2], pA[16][2], pA[17][2], pA[18][2], pA[19][2], 
+				pA[20][2], pA[21][2], pA[22][2], pA[23][2], pA[24][2], pA[25][2], pA[26][2], pA[27][2], pA[28][2]
+				];
+
+				let majorData = new CrimeStat("9/7/20 - 9/13/20", crimeArray);
+				majorData.subData = [];
+
+				for (var i=1; i<downloadLinkArray.length; i++)
+				{
+					var filename = downloadLinkArray[i].downloadOptions.filename;
+					var pA = xlsx.parse(`../Crime Statistics/ExcelFiles/${filename}`)[0].data;
+					var crimeArray = [
+					pA[13][2], pA[14][2], pA[15][2], pA[16][2], pA[17][2], pA[18][2], pA[19][2], 
+					pA[20][2], pA[21][2], pA[22][2], pA[23][2], pA[24][2], pA[25][2], pA[26][2], pA[27][2], pA[28][2]
+					];
+					//Add extra JSON thing to new object that incorporates filename
+					majorData.subData.push(new SubCrimeStat("9/7/20 - 9/13/20", crimeArray, filename));
+				}
+				response.send(majorData);
+			}
+			catch(err)
+			{
+				console.log(err);
+				response.send(err);
+			}
+		}
+		else
+		{
+			response.send("API Key is not Correct");
+		}
+	}
 })
 
 router.use((request, response) => {

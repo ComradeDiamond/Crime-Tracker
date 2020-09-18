@@ -1,5 +1,5 @@
 //Serverside CrimeStat class for API to export JSON
-function CrimeStat(date, crimeStatArray, felonyCount)
+function CrimeStat(date, crimeStatArray)
 {
 	this.date = date;
 	this.murder = crimeStatArray[0];
@@ -9,15 +9,27 @@ function CrimeStat(date, crimeStatArray, felonyCount)
 	this.burglary = crimeStatArray[4];
 	this.grandLarcenry = crimeStatArray[5];
 	this.carTheft = crimeStatArray[6]; //NYPD calls this "GLA"
-	this.transit = crimeStatArray[7];
-	this.housing = crimeStatArray[8];
-	this.smallLarcenry = crimeStatArray[9]; //AKA petite larcenry
-	this.misdAssult = crimeStatArray[10]; //Misdemeanor Assault
-	this.ucrRape = crimeStatArray[11]; //Rape + attempt to rape
-	this.sexCrime = crimeStatArray[12];
-	this.shootingVic = crimeStatArray[13];
-	this.shootingInc = crimeStatArray[14];
-	this.felonyCount = felonyCount;
+	this.transit = crimeStatArray[8];
+	this.housing = crimeStatArray[9];
+	this.smallLarcenry = crimeStatArray[10]; //AKA petite larcenry
+	this.misdAssult = crimeStatArray[11]; //Misdemeanor Assault
+	this.ucrRape = crimeStatArray[12]; //Rape + attempt to rape
+	this.sexCrime = crimeStatArray[13];
+	this.shootingVic = crimeStatArray[14];
+	this.shootingInc = crimeStatArray[15];
+	this.felonyCount = crimeStatArray[7];
+
+	crimeStatArray.splice(7,1);
+	this.array = crimeStatArray;
+}
+
+function SubCrimeStat(date, crimeStatArray, precindict)
+{
+	this.precindict = precindict;
+	this.date = date;
+	this.felonyCount = crimeStatArray[7];
+
+	crimeStatArray.splice(7,1);
 	this.array = crimeStatArray;
 }
 
@@ -42,8 +54,6 @@ const crimeArray =
 	"Transit", "Housing", "Small Larcenry", "Misdemeanor Assault", "UCR Rape", "Sex Crime", "Shooting (Victim)", "Shooting (Incident)"
 ]
 
-//Array of all the General Crime Months
-crimeMonthArray = [];
-
 module.exports.Link = Link;
 module.exports.CrimeStat = CrimeStat;
+module.exports.SubCrimeStat = SubCrimeStat;
